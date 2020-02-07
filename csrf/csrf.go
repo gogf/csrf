@@ -31,7 +31,7 @@ var (
 
 // NewCSRF Create CSRF middleware (with default configuration)
 //
-// createTime: 2020年01月21日 17:03:26
+// createTime: 2020-01-21 17:03:26
 //
 // author: hailaz
 func NewCSRF() func(r *ghttp.Request) {
@@ -40,7 +40,7 @@ func NewCSRF() func(r *ghttp.Request) {
 
 // NewCSRFWithCfg Create CSRF middleware (with incoming configuration)
 //
-// createTime: 2020年01月20日 17:51:06
+// createTime: 2020-01-20 17:51:06
 //
 // author: hailaz
 func NewCSRFWithCfg(cfg CSRFConfig) func(r *ghttp.Request) {
@@ -75,7 +75,7 @@ func NewCSRFWithCfg(cfg CSRFConfig) func(r *ghttp.Request) {
 		cfg.Cookie.Expires = time.Now().Add(cfg.ExpireTime)
 		cfg.Cookie.Value = tokenInCookie
 
-		// Set cookies in response
+		// Set cookie in response
 		http.SetCookie(r.Response.RawWriter(), cfg.Cookie)
 		r.Middleware.Next()
 	}
