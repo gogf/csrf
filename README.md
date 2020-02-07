@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"time"
 
-	csrf "github.com/gogf/gf-csrf"
+	"github.com/gogf/gf-csrf/csrf"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 )
@@ -35,7 +35,7 @@ import (
 	"net/http"
 	"time"
 
-	csrf "github.com/gogf/gf-csrf"
+	"github.com/gogf/gf-csrf/csrf"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 )
