@@ -9,8 +9,8 @@ import (
 	"github.com/gogf/gf/util/grand"
 )
 
-// CSRFConfig CSRFConfig struct
-type CSRFConfig struct {
+// Config is the configuration struct for CSRF feature.
+type Config struct {
 	TokenLength     int
 	TokenRequestKey string
 	ExpireTime      time.Duration
@@ -19,7 +19,7 @@ type CSRFConfig struct {
 
 var (
 	// DefaultCSRFConfig is the default CSRF middleware config.
-	DefaultCSRFConfig = CSRFConfig{
+	DefaultCSRFConfig = Config{
 		Cookie: &http.Cookie{
 			Name: "_csrf",
 		},
@@ -29,28 +29,20 @@ var (
 	}
 )
 
-// NewCSRF Create CSRF middleware (with default configuration)
-//
-// createTime: 2020-01-21 17:03:26
-//
-// author: hailaz
-func NewCSRF() func(r *ghttp.Request) {
-	return NewCSRFWithCfg(DefaultCSRFConfig)
+// New creates and returns a CSRF middleware with default configuration.
+func New() func(r *ghttp.Request) {
+	return NewWithCfg(DefaultCSRFConfig)
 }
 
-// NewCSRFWithCfg Create CSRF middleware (with incoming configuration)
-//
-// createTime: 2020-01-20 17:51:06
-//
-// author: hailaz
-func NewCSRFWithCfg(cfg CSRFConfig) func(r *ghttp.Request) {
+// NewWithCfg creates and returns a CSRF middleware with incoming configuration.
+func NewWithCfg(cfg Config) func(r *ghttp.Request) {
 	return func(r *ghttp.Request) {
 
 		// Read the token in the request cookie
 		tokenInCookie := r.Cookie.Get(cfg.Cookie.Name)
 		if tokenInCookie == "" {
 			// Generate a random token
-			tokenInCookie = grand.Str(cfg.TokenLength)
+			tokenInCookie = grand.S(cfg.TokenLength)
 		}
 
 		// Read the token attached to the request
@@ -66,7 +58,7 @@ func NewCSRFWithCfg(cfg CSRFConfig) func(r *ghttp.Request) {
 		default:
 			// Authentication token
 			if !strings.EqualFold(tokenInCookie, tokenInRequestData) {
-				r.Response.WriteStatusExit(http.StatusForbidden, "invalid csrf token")
+				r.Response.WriteStatusExit(http.StatusForbidden, "invalid CSRF token")
 				return
 			}
 		}

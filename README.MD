@@ -18,7 +18,7 @@ import (
 func main() {
 	s := g.Server()
 	s.Group("/api.v2", func(group *ghttp.RouterGroup) {
-		group.Middleware(csrf.NewCSRF())
+		group.Middleware(csrf.New())
 		group.ALL("/csrf", func(r *ghttp.Request) {
 			r.Response.Writeln(r.Method + ": " + r.RequestURI)
 		})
@@ -44,13 +44,13 @@ import (
 func main() {
 	s := g.Server()
 	s.Group("/api.v2", func(group *ghttp.RouterGroup) {
-		group.Middleware(csrf.NewCSRFWithCfg(csrf.CSRFConfig{
+		group.Middleware(csrf.NewWithCfg(csrf.Config{
 			Cookie: &http.Cookie{
 				Name: "_csrf",// token name in cookie
 			},
 			ExpireTime:      time.Hour * 24,
 			TokenLength:     32,
-			TokenRequestKey: "X-CSRF-Token",// use this key to read token in request param
+			TokenRequestKey: "X--Token",// use this key to read token in request param
 		}))
 		group.ALL("/csrf", func(r *ghttp.Request) {
 			r.Response.Writeln(r.Method + ": " + r.RequestURI)
