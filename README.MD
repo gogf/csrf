@@ -1,4 +1,4 @@
-# gf-csrf
+# csrf
 
 ## How to use
 
@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/gogf/gf-csrf/csrf"
+	"github.com/gogf/csrf"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 )
@@ -35,7 +35,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/gogf/gf-csrf/csrf"
+	"github.com/gogf/csrf"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 )
