@@ -47,6 +47,8 @@ func main() {
 		group.Middleware(csrf.NewWithCfg(csrf.Config{
 			Cookie: &http.Cookie{
 				Name: "_csrf",// token name in cookie
+				Secure:   true,
+				SameSite: http.SameSiteNoneMode,// 自定义samesite
 			},
 			ExpireTime:      time.Hour * 24,
 			TokenLength:     32,
