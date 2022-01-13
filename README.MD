@@ -2,71 +2,10 @@
 
 ## How to use
 
-```go
-package main
-
-import (
-	"net/http"
-	"time"
-
-	"github.com/gogf/csrf"
-	"github.com/gogf/gf/frame/g"
-	"github.com/gogf/gf/net/ghttp"
-)
-
-// default cfg
-func main() {
-	s := g.Server()
-	s.Group("/api.v2", func(group *ghttp.RouterGroup) {
-		group.Middleware(csrf.New())
-		group.ALL("/csrf", func(r *ghttp.Request) {
-			r.Response.Writeln(r.Method + ": " + r.RequestURI)
-		})
-	})
-	s.SetPort(8199)
-	s.Run()
-}
-```
-
-```go
-package main
-
-import (
-	"net/http"
-	"time"
-
-	"github.com/gogf/csrf"
-	"github.com/gogf/gf/frame/g"
-	"github.com/gogf/gf/net/ghttp"
-)
-
-// set cfg
-func main() {
-	s := g.Server()
-	s.Group("/api.v2", func(group *ghttp.RouterGroup) {
-		group.Middleware(csrf.NewWithCfg(csrf.Config{
-			Cookie: &http.Cookie{
-				Name: "_csrf",// token name in cookie
-				Secure:   true,
-				SameSite: http.SameSiteNoneMode,// 自定义samesite
-			},
-			ExpireTime:      time.Hour * 24,
-			TokenLength:     32,
-			TokenRequestKey: "X--Token",// use this key to read token in request param
-		}))
-		group.ALL("/csrf", func(r *ghttp.Request) {
-			r.Response.Writeln(r.Method + ": " + r.RequestURI)
-		})
-	})
-	s.SetPort(8199)
-	s.Run()
-}
-```
-
-
+[example](example_test.go)
 
 ## Check effect by request(GET and POST)
 
-http://localhost:8199/api.v2/csrf
+http://127.0.0.1:8199/api.v2/csrf
 
 You can set the token in request with param(Router < Query < Body < Form < Custom < Header)

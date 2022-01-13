@@ -5,8 +5,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gogf/gf/net/ghttp"
-	"github.com/gogf/gf/util/grand"
+	"github.com/gogf/gf/v2/net/ghttp"
+	"github.com/gogf/gf/v2/util/grand"
 )
 
 // Config is the configuration struct for CSRF feature.
@@ -39,7 +39,7 @@ func NewWithCfg(cfg Config) func(r *ghttp.Request) {
 	return func(r *ghttp.Request) {
 
 		// Read the token in the request cookie
-		tokenInCookie := r.Cookie.Get(cfg.Cookie.Name)
+		tokenInCookie := r.Cookie.Get(cfg.Cookie.Name).String()
 		if tokenInCookie == "" {
 			// Generate a random token
 			tokenInCookie = grand.S(cfg.TokenLength)
@@ -49,7 +49,7 @@ func NewWithCfg(cfg Config) func(r *ghttp.Request) {
 		// Read priority: Router < Query < Body < Form < Custom < Header
 		tokenInRequestData := r.Header.Get(cfg.TokenRequestKey)
 		if tokenInRequestData == "" {
-			tokenInRequestData = r.GetString(cfg.TokenRequestKey)
+			tokenInRequestData = r.GetRequest(cfg.TokenRequestKey).String()
 		}
 
 		switch r.Method {

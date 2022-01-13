@@ -1,12 +1,14 @@
 package csrf_test
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
-	"github.com/gogf/csrf"
-	"github.com/gogf/gf/frame/g"
-	"github.com/gogf/gf/net/ghttp"
+	"github.com/gogf/csrf/v2"
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/net/ghttp"
+	"github.com/gogf/gf/v2/os/glog"
 )
 
 func ExampleNew() {
@@ -14,16 +16,22 @@ func ExampleNew() {
 	s.Group("/api.v2", func(group *ghttp.RouterGroup) {
 		group.Middleware(csrf.New())
 		group.ALL("/csrf", func(r *ghttp.Request) {
-			r.Response.Writeln(r.Method + ": " + r.RequestURI)
+			reqInfo := "Request Info:\n"
+			reqInfo += fmt.Sprintf("%s\n", r.Method+": "+r.RequestURI)
+			reqInfo += fmt.Sprintf("Cookies: %v\n", r.Cookies())
+			reqInfo += fmt.Sprintf("Header: %v\n", r.Header)
+			reqInfo += fmt.Sprintf("Query: %v\n", r.URL.Query())
+			glog.Debug(r.Context(), reqInfo)
+			r.Response.Writeln(reqInfo)
 		})
 	})
-	s.SetPort(8199)
+	s.SetAddr("127.0.0.1:8199")
 	s.Run()
 
-	// Get http://localhost:8199/api.v2/csrf
+	// Get http://127.0.0.1:8199/api.v2/csrf
 	// get CSRF token in Cookie _csrf
 
-	// Post http://localhost:8199/api.v2/csrf
+	// Post http://127.0.0.1:8199/api.v2/csrf
 	// invalid CSRF token in Header X-CSRF-Token
 }
 
@@ -41,15 +49,20 @@ func ExampleNewWithCfg() {
 			TokenRequestKey: "X-My-Token", // use this key to read token in request param
 		}))
 		group.ALL("/csrf", func(r *ghttp.Request) {
-			r.Response.Writeln(r.Method + ": " + r.RequestURI)
+			reqInfo := "Request Info:\n"
+			reqInfo += fmt.Sprintf("%s\n", r.Method+": "+r.RequestURI)
+			reqInfo += fmt.Sprintf("Cookies: %v\n", r.Cookies())
+			reqInfo += fmt.Sprintf("Header: %v\n", r.Header)
+			reqInfo += fmt.Sprintf("Query: %v\n", r.URL.Query())
+			glog.Debug(r.Context(), reqInfo)
+			r.Response.Writeln(reqInfo)
 		})
 	})
-	s.SetPort(8199)
+	s.SetAddr("127.0.0.1:8199")
 	s.Run()
-
-	// Get http://localhost:8199/api.v2/csrf
+	// Get http://127.0.0.1:8199/api.v2/csrf
 	// get CSRF token in Cookie _csrf
 
-	// Post http://localhost:8199/api.v2/csrf
+	// Post http://127.0.0.1:8199/api.v2/csrf
 	// invalid CSRF token in Header X-My-Token
 }

@@ -1,5 +1,5 @@
-module github.com/gogf/csrf
+module github.com/gogf/csrf/v2
 
 go 1.11
 
-require github.com/gogf/gf v1.16.6
+require github.com/gogf/gf/v2 v2.0.0-rc
