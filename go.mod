@@ -2,4 +2,4 @@ module github.com/gogf/csrf/v2
 
 go 1.11
 
-require github.com/gogf/gf/v2 v2.1.4
+require github.com/gogf/gf/v2 v2.2.6
